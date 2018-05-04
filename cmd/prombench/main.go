@@ -3,15 +3,15 @@ package main
 import (
 	"flag"
 	"fmt"
-	"prombench"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"io"
 	"log"
 	"net/http"
 	_ "net/http/pprof"
 	"os"
 	"path/filepath"
+	"prombench"
 	"time"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -24,7 +24,7 @@ func main() {
 	var (
 		firstPort = flag.Int("first-port", 10000,
 			"First port to assign to load exporters.")
-		exporters = &prombench.ExporterSpecList{prombench.ExporterSpec{prombench.ExporterInc, 3}}
+		exporters = &prombench.ExporterSpecList{prombench.ExporterSpec{Exporter: prombench.ExporterInc, Count: 3}}
 		rmtestdir = flag.Bool("rmtestdir", false,
 			"delete the test dir if present")
 		scrapeInterval = flag.Duration("scrape-interval", time.Second,

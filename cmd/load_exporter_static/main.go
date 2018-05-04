@@ -10,9 +10,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"prombench/loadgen"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"prombench/loadgen"
 )
 
 func main() {
@@ -36,7 +36,8 @@ func main() {
 	signal.Notify(sigchan, syscall.SIGTERM)
 	go func() {
 		<-sigchan
-		fmt.Printf("%d", tc.Sum())
+		value, _ := tc.Sum()
+		fmt.Printf("%d", value)
 		os.Exit(0)
 	}()
 
