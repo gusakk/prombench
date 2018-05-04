@@ -1,0 +1,15 @@
+package: prombench
+import:
+- package: github.com/facebookgo/httpdown
+- package: github.com/ncabatoff/prombench
+  subpackages:
+  - harness
+  - loadgen
+- package: github.com/prometheus/client_golang
+  subpackages:
+  - api/prometheus
+  - prometheus
+  - prometheus/promhttp
+- package: github.com/prometheus/common
+  subpackages:
+  - model
