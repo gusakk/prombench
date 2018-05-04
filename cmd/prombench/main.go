@@ -3,8 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/ncabatoff/prombench"
-	"github.com/prometheus/client_golang/prometheus"
+	"prombench"
 	"io"
 	"log"
 	"net/http"
@@ -12,6 +11,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -58,7 +58,7 @@ func main() {
 		extraArgs = extraArgs[1:]
 	}
 
-	http.Handle("/metrics", prometheus.Handler())
+	http.Handle("/metrics", promhttp.Handler())
 	go http.ListenAndServe(*benchListenAddress, nil)
 	prombench.Run(prombench.Config{
 		FirstPort:               *firstPort,

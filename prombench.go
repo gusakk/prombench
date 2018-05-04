@@ -3,8 +3,8 @@ package prombench
 import (
 	"context"
 	"fmt"
-	"github.com/ncabatoff/prombench/harness"
-	"github.com/ncabatoff/prombench/loadgen"
+	"prombench/harness"
+	"prombench/loadgen"
 	api "github.com/prometheus/client_golang/api/prometheus"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/common/model"

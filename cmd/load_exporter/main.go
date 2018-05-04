@@ -10,8 +10,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/ncabatoff/prombench/loadgen"
+	"prombench/loadgen"
 	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -37,7 +38,7 @@ func main() {
 		os.Exit(0)
 	}()
 
-	http.Handle(*metricsPath, prometheus.Handler())
+	http.Handle(*metricsPath, promhttp.Handler())
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>
