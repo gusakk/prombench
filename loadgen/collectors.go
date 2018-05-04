@@ -5,6 +5,7 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	"math/rand"
 	"strconv"
+	"strings"
 )
 
 type (
@@ -15,10 +16,10 @@ type (
 	}
 )
 
-func NewIncCollector(nmetrics, nlabels int) *incCollector {
+func NewIncCollector(nmetrics, nlabels int, metricNamePrefix string) *incCollector {
 	descs := make([]*prometheus.Desc, nmetrics)
 	for i := 0; i < nmetrics; i++ {
-		metname := fmt.Sprintf("test%d", i)
+		metname := strings.Join([]string{metricNamePrefix, strconv.Itoa(i)}, "")
 		descs[i] = prometheus.NewDesc(metname, metname, []string{"lab"}, nil)
 	}
 	return &incCollector{descs: descs, labelCount: nlabels}
@@ -55,11 +56,11 @@ type (
 	}
 )
 
-func NewStaticCollector(nmetrics, nlabels int) *staticCollector {
+func NewStaticCollector(nmetrics, nlabels int, metricNamePrefix string) *staticCollector {
 	descs := make([]*prometheus.Desc, nmetrics)
 	metrics := make([]prometheus.Metric, 0, nlabels*nmetrics)
 	for i := 0; i < nmetrics; i++ {
-		metname := fmt.Sprintf("test%d", i)
+		metname := strings.Join([]string{metricNamePrefix, strconv.Itoa(i)}, "")
 		desc := prometheus.NewDesc(metname, metname, []string{"lab"}, nil)
 		descs[i] = desc
 		for j := 0; j < nlabels; j++ {

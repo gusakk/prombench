@@ -431,18 +431,19 @@ func startRunInterval(ctx context.Context, ri RunIntervalSpec) func() {
 func startExporters(le loadgen.LoadExporter, esl ExporterSpecList, firstPort int) int {
 	log.Printf("starting exporters: %s", esl.String())
 	exporterCount := 0
+	metricPrefix := "test"
 	for _, exporterSpec := range esl {
 		for i := 0; i < exporterSpec.Count; i++ {
 			var exporter loadgen.HttpExporter
 			switch exporterSpec.Exporter {
 			case ExporterInc:
-				exporter = loadgen.NewHttpExporter(loadgen.NewIncCollector(100, 100))
+				exporter = loadgen.NewHttpExporter(loadgen.NewIncCollector(100, 100, metricPrefix))
 			case ExporterStatic:
-				exporter = loadgen.NewHttpExporter(loadgen.NewStaticCollector(100, 100))
+				exporter = loadgen.NewHttpExporter(loadgen.NewStaticCollector(100, 100, metricPrefix))
 			case ExporterRandCyclic:
 				exporter = loadgen.NewHttpExporter(loadgen.NewRandCyclicCollector(100, 100, 100000))
 			case ExporterOscillate:
-				exporter = loadgen.NewReplayHandler(loadgen.NewHttpExporter(loadgen.NewIncCollector(100, 100)))
+				exporter = loadgen.NewReplayHandler(loadgen.NewHttpExporter(loadgen.NewIncCollector(100, 100, metricPrefix)))
 			default:
 				log.Fatalf("invalid exporter '%s'", exporterSpec.Exporter)
 			}

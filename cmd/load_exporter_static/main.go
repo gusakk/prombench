@@ -25,10 +25,12 @@ func main() {
 			"how many metrics to expose per exporter")
 		labelCount = flag.Int("label-count", 100,
 			"how many labels to create per metric")
+		metricNamePrefix = flag.String("metric-prefix", "test",
+			"Metric's prefix for each metric of this exporter.")
 	)
 	flag.Parse()
 
-	tc := loadgen.NewStaticCollector(*metricCount, *labelCount)
+	tc := loadgen.NewStaticCollector(*metricCount, *labelCount, *metricNamePrefix)
 	prometheus.MustRegister(tc)
 	sigchan := make(chan os.Signal, 1)
 	signal.Notify(sigchan, syscall.SIGTERM)
